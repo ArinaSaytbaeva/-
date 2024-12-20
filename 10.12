@@ -1,0 +1,109 @@
+//шифр атабаш 
+#include <iostream>
+#include <string>
+
+using namespace std;
+
+string atbashCipher(const string& text) {
+    string result;
+    for (char ch : text) {
+        if (isalpha(ch)) {
+            char base = islower(ch) ? 'a' : 'A';
+            result += (base + ('z' - ch));
+        } else {
+            result += ch;
+        }
+    }
+    return result;
+}
+
+int main() {
+    string input = "HELLO";
+    cout << atbashCipher(input) << endl; // "SVOOL"
+    return 0;
+}
+// Замена букв цифрами
+#include <iostream>
+#include <string>
+#include <sstream>
+
+using namespace std;
+
+string lettersToNumbers(const string& text) {
+    ostringstream result;
+    for (char ch : text) {
+        if (isalpha(ch)) {
+            int number = toupper(ch) - 'A' + 1;
+            result << number << " ";
+        }
+    }
+    string output = result.str();
+    if (!output.empty()) {
+        output.pop_back(); // Удаляем последний пробел
+    }
+    return output;
+}
+
+int main() {
+    string input = "TOWN";
+    cout << lettersToNumbers(input) << endl; // "20 15 23 14"
+    return 0;
+}
+//Удаление дубликатов символов
+#include <iostream>
+#include <string>
+#include <unordered_set>
+using namespace std;
+
+string removeDuplicates(const string& text) {
+    unordered_set<char> seen;
+    string result;
+    
+    for (char ch : text) {
+        if (seen.find(ch) == seen.end()) {
+            seen.insert(ch);
+            result += ch;
+        }
+    }
+    
+    return result;
+}
+
+int main() {
+    string input = "Hello World";
+    cout << removeDuplicates(input) << endl; // "Helo Wrd"
+    return 0;
+}
+//Проверка палиндрома
+#include <iostream>
+#include <string>
+#include <cctype>
+
+using namespace std;
+
+bool isPalindrome(const string& text) {
+    string cleanedText;
+    
+    for (char ch : text) {
+        if (isalnum(ch)) {
+            cleanedText += tolower(ch);
+        }
+    }
+    
+    int n = cleanedText.length();
+    for (int i = 0; i < n / 2; ++i) {
+        if (cleanedText[i] != cleanedText[n - i - 1]) {
+            return false;
+        }
+    }
+    
+    return true;
+}
+
+int main() {
+    string input = "A man, a plan, a canal: Panama";
+    cout << (isPalindrome(input) ? "True" : "False") << endl; // True
+    return 0;
+}
+
+
