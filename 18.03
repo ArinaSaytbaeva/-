@@ -1,0 +1,95 @@
+
+#include <iostream>
+using namespace std;
+#include <string>
+
+//ship, steamer, sailboat, corvette
+// скорость узлов (speed),
+
+class ship {
+protected:
+    string name;
+    int speed;
+public:
+    ship(const string& name, int speed) :
+        name(name), speed(speed) {
+    }
+
+    bool operator == (const ship& array) const {
+        return (name == array.name && speed == array.speed);
+    }
+    bool operator + (const ship& array) const {
+        return (name + "&" + array.name, speed + "&" + array.speed);
+    }
+    ship& operator++() {
+        ++speed;
+        return*this;
+
+    }
+    virtual void korabli()const = 0;
+    virtual ~ship() = default;
+
+};
+class steamer :public ship {
+public:
+    steamer(const string& name, int speed) :
+        ship(name, speed) {
+    }
+
+    void korabli()const {
+        cout << "Пароход" << name << " " << speed << " " << endl;
+    }
+
+};
+class sailboat :public steamer {
+public:
+    sailboat(const string& name, int speed) :
+        steamer(name, speed) {
+    }
+
+    void korabli()const {
+        cout << "Парусник" << name << " " << speed << " " << endl;
+    }
+};
+class corvette : public sailboat {
+public:
+    corvette(const string& name, int speed) :
+        sailboat(name, speed) {
+    }
+
+    void korabli()const {
+        cout << "Корвет" << name << " " << speed << " " << endl;
+    }
+};
+
+
+
+int main() {
+    setlocale(LC_ALL, "rus");
+
+    steamer  Steamer("Пароход ", 10);
+    sailboat Sailboat("Парусник ", 15);
+    corvette Corvette("Корвет", 20);
+
+    Steamer.korabli();
+    Sailboat.korabli();
+    Corvette.korabli();
+
+    if (Steamer == sailboat("Парусник-1", 10)) {
+        cout << "Пароход и парусник равны!" << endl;
+    }
+    else {
+        cout << "Пароход и парусник не равны!" << endl;
+    }
+
+    // Сложение двух кораблей
+    ship* combinedShip = new steamer((Steamer + Sailboat), Steamer.speed + Sailboat.speed);
+    combinedShip->korabli();
+
+    // Инкремент скорости парохода
+    ++Steamer;
+    Steamer.korabli();
+
+    delete combinedShip; // Освобождение памяти
+    return 0;
+}
