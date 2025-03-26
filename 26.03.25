@@ -1,0 +1,117 @@
+#include <iostream>
+#include <string>
+using namespace std;
+//Музыкант, персона, студент, гитарист
+//Musician, person, student, guitarist
+class Person {
+protected:
+    string name;
+public:
+    virtual void di() = 0;
+};
+
+class MediaProduct {
+public:
+    virtual void di() = 0;
+    friend MediaProduct& operator<<(ostream& out, MediaProduct& product);
+};
+
+class Musician : public MediaProduct, public Person {
+private:
+    string musician_id;
+    int birth_year;
+public:
+    void di() override {
+        cout << "ID музыканта: " << musician_id << endl;
+        cout << "Год рождения: " << birth_year << endl;
+        cout << "Имя музыканта: " << name << endl;
+    }
+    Musician() {
+        name = "";
+        birth_year = 0;
+        musician_id = "";
+    }
+    Musician(string name, int year, string id) {
+        this->name = name;
+        birth_year = year;
+        musician_id = id;
+    }
+    friend Musician& operator<<(ostream& out, Musician& musician) {
+        out << "ID музыканта: " << musician.musician_id << endl;
+        out << "Год рождения: " << musician.birth_year << endl;
+        out << "Имя музыканта: " << musician.name << endl;
+        return musician;
+    }
+   
+};
+
+class Student : public MediaProduct {
+private:
+    string student_name;
+    int graduation_year;
+public:
+    void di() override {
+        cout << "Студент: " << student_name << endl;
+        cout << "Год выпуска: " << graduation_year << endl;
+    }
+    Student() {
+        graduation_year = 0;
+        student_name = "";
+    }
+    Student(string name, int year) {
+        this->student_name = name;
+        graduation_year = year;
+    }
+    friend Student& operator<<(ostream& out, Student& student) {
+        out << "Студент: " << student.student_name << endl;
+        out << "Год выпуска: " << student.graduation_year << endl;
+        return student;
+    }
+};
+
+class Guitarist : public MediaProduct {
+private:
+    string guitarist_name;
+    int debut_year;
+public:
+    void di() override {
+        cout << "Гитарист: " << guitarist_name << endl;
+        cout << "Год дебюта: " << debut_year << endl;
+    }
+    Guitarist() {
+        debut_year = 0;
+        guitarist_name = "";
+    }
+    Guitarist(string name, int year) {
+        this->guitarist_name = name;
+        debut_year = year;
+    }
+    friend Guitarist& operator<<(ostream& out, Guitarist& guitarist) {
+        out << "Гитарист: " << guitarist.guitarist_name << endl;
+        out << "Год дебюта: " << guitarist.debut_year << endl;
+        return guitarist;
+    }
+};
+
+int main() {
+    setlocale(LC_ALL, "RUS");
+    Musician* musician = new Musician{ "Григорий Лепс", 1962, "001" };
+    Student* student = new Student{ "Аврора", 2025 };
+    Guitarist* guitarist = new Guitarist{ "Виктор Зимчук", 1987 };
+
+    MediaProduct** arr = new MediaProduct * [3];
+    arr[0] = musician;
+    arr[1] = student;
+    arr[2] = guitarist;
+
+    for (int i = 0; i < 3; i++) {
+        arr[i]->di();
+    }
+
+    delete musician;
+    delete student;
+    delete guitarist;
+    delete[] arr;
+
+    return 0;
+}
